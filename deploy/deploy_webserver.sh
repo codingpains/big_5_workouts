@@ -28,7 +28,7 @@ if [ -f /etc/nginx/sites-enabled/default ]; then
 fi
 
 echo "-- Override NGINX config file for this project"
-cp /home/deploy/apps/big_5_workouts/deploy/adt_demo.conf /etc/nginx/sites-available/big_5_workouts.codingpains
+cp /home/deploy/apps/big_5_workouts/deploy/big_5.conf /etc/nginx/sites-available/big_5_workouts.codingpains
 if [ -f /etc/nginx/sites-enabled/big_5_workouts.codingpains ]; then
     echo "-- Link already exists"
 else

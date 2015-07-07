@@ -14,8 +14,8 @@ npm install
 
 # Kill previous workers
 echo "-- Stop and remove all existing instances"
-pm2 stop web-server
-pm2 delete web-server
+pm2 stop big-5-web-server
+pm2 delete big-5-web-server
 
 # Start new workers
 echo "-- Start new insances: pm2 start ./deploy/pm2-webserver.json --env production"

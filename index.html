@@ -1,0 +1,215 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
+  </head>
+  <body>
+
+    <section id="content">
+        <h1>Big 5 Workout</h1>
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">1. Vertical PullDown</h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="vertical_pulldown_weight">Weight (kg)</label>
+                            <input type="text" class="form-control" id="vertical_pulldown_weight" placeholder="55">
+                        </div>
+                        <button type="submit" class="btn btn-default" id="toggle_vpd">Start</button>
+                        <div id="count_vpd">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">2. Chest Press</h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="chest_press_weight">Weight (kg)</label>
+                            <input type="text" class="form-control" id="chest_press_weight" placeholder="55">
+                        </div>
+                        <button type="submit" class="btn btn-default" id="toggle_chps">Start</button>
+                        <div id="count_chps">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">3. Seated Row</h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="seated_row_weight">Weight (kg)</label>
+                            <input type="text" class="form-control" id="seated_row_weight" placeholder="55">
+                        </div>
+                        <button type="submit" class="btn btn-default" id="toggle_sr">Start</button>
+                        <div id="count_sr">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">4. Vertical Push</h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="vertical_push_weight">Weight (kg)</label>
+                            <input type="text" class="form-control" id="vertical_push_weight" placeholder="55">
+                        </div>
+                        <button type="submit" class="btn btn-default" id="toggle_vpsh">Start</button>
+                        <div id="count_vpsh">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">5. Leg Press</h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="leg_press_weight">Weight (kg)</label>
+                            <input type="text" class="form-control" id="leg_press_weight" placeholder="55">
+                        </div>
+                        <button type="submit" class="btn btn-default" id="toggle_lps">Start</button>
+                        <div id="count_lps">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-success" id="finish_workout">Finish this workout</button>
+        </div>
+    </section>
+
+    <script>
+        var inputs   = {},
+            buttons  = {},
+            feedback = {},
+            data     = {},
+            running  = false,
+            time,
+            interval;
+
+        var printTime = function (element, time) {
+            element.innerText = '' + time + ' seconds.';
+        };
+
+        var runExercise = function (name) {
+            if (running === true) {
+                console.log("Running")
+                if (buttons[name].running === true) {
+                    console.log(name + " running");
+                    window.clearInterval(interval);
+                    buttons[name].innerHTML = 'Done';
+                    buttons[name].disabled = true;
+                    buttons[name].running = false;
+
+                    data[name].time = time;
+
+                    time = 0;
+                    running = false;
+
+                    console.log("Data ", data);
+                }
+            } else {
+                console.log("Nothing running, start Vertical Pulldown");
+                time = 0;
+                inputs[name].disabled = true;
+                buttons[name].running = true;
+                buttons[name].innerHTML = 'Finish';
+                data[name] = {
+                    weight : parseInt(inputs[name].value, 10)
+                };
+                running = true;
+                interval = window.setInterval(function () {
+                    time += 1;
+                    printTime(feedback[name], time);
+                }, 1000);
+            }
+        };
+        var startApp = function () {
+            inputs.verticalPullDown = document.getElementById('vertical_pulldown_weight');
+            inputs.chestPress       = document.getElementById('chest_press_weight');
+            inputs.seatedRow        = document.getElementById('seated_row_weight');
+            inputs.verticalPush     = document.getElementById('vertical_push_weight');
+            inputs.legPress         = document.getElementById('leg_press_weight');
+
+            buttons.verticalPullDown = document.getElementById('toggle_vpd');
+            buttons.chestPress       = document.getElementById('toggle_chps');
+            buttons.seatedRow        = document.getElementById('toggle_sr');
+            buttons.verticalPush     = document.getElementById('toggle_vpsh');
+            buttons.legPress         = document.getElementById('toggle_lps');
+            buttons.finish           = document.getElementById('finish_workout');
+
+            feedback.verticalPullDown = document.getElementById('count_vpd');
+            feedback.chestPress       = document.getElementById('count_chps');
+            feedback.seatedRow        = document.getElementById('count_sr');
+            feedback.verticalPush     = document.getElementById('count_vpsh');
+            feedback.legPress         = document.getElementById('count_lps');
+
+            buttons.verticalPullDown.addEventListener('click', function (ev) {
+                ev.preventDefault();
+                runExercise('verticalPullDown');
+                return false;
+            });
+
+            buttons.chestPress.addEventListener('click', function (ev) {
+                ev.preventDefault();
+                runExercise('chestPress');
+                return false;
+            });
+
+            buttons.seatedRow.addEventListener('click', function (ev) {
+                ev.preventDefault();
+                runExercise('seatedRow');
+                return false;
+            });
+
+            buttons.verticalPush.addEventListener('click', function (ev) {
+                ev.preventDefault();
+                runExercise('verticalPush');
+                return false;
+            });
+
+            buttons.legPress.addEventListener('click', function (ev) {
+                ev.preventDefault();
+                runExercise('legPress');
+                return false;
+            });
+
+            buttons.finish.addEventListener('click', function (ev) {
+                var payload = JSON.stringify(data),
+                    request = new XMLHttpRequest();
+                console.log(data);
+                console.log(payload);
+                request.onreadystatechange = function getResponse() {
+                    if (request.readyState === 4) {
+                        console.log(request.status, request.responseText);
+                    }
+                }
+                request.open('POST', '/workouts', true);
+                request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                request.send('data=' + payload);
+            });
+        }
+
+        window.onload = startApp;
+    </script>
+  </body>
+</html>

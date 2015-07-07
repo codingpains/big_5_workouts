@@ -1,0 +1,21 @@
+{
+  "name": "Big5Workouts",
+  "version": "0.0.1",
+  "description": "A simple app to aid in the track of exercises and workouts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gusortiz/big_5_workouts"
+  },
+  "author": "Gustavo Ortiz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gusortiz/big_5_workouts/issues"
+  },
+  "homepage": "http://big5.codingpains.com",
+  "dependencies": {
+    "body-parser": "^1.13.2",
+    "compression": "^1.5.1",
+    "express": "^4.13.1",
+    "morgan": "^1.6.1"
+  }
+}
